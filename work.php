@@ -9,7 +9,6 @@ $time= $_POST['time'];
 
 $calculator = new Calc($value,$percentage,$instalments,$time);
 $amount = $calculator->instalmentsCalc();
-$amounts=$calculator->calculation();
 ?>
 <table >
 <tr>
@@ -25,38 +24,38 @@ $amounts=$calculator->calculation();
             </tr>
             <tr>
                 <td>Base premium(<?php echo $amount['percentage'] ?>%)</td>
-                <td><?php echo $amounts['baseAmount']?></td>
+                <td><?php echo $amount['baseAmount']?></td>
                 <?php 
-                foreach($amount['baseAmount'] as $instalment=>$value){
+                foreach($amount['instalments']['baseAmount'] as $instalment=>$value){
                     ?>
                 <td><?php echo $value ?></td>
                 <?php } ?>
             </tr>
             <tr>
                 <td>Commission(17%)</td>
-                <td><?php echo $amounts['commissionAmount']?></td>
+                <td><?php echo $amount['commissionAmount']?></td>
                 <?php 
-                foreach($amount['commissionAmount'] as $instalment=>$value){
+                foreach($amount['instalments']['commissionAmount'] as $instalment=>$value){
                     ?>
                 <td><?php echo $value ?></td>
                 <?php } ?>
             </tr>
             <tr>
                 <td>Tax(<?php echo $percentage. "%"?>)</td>
-                <td><?php echo $amounts['taxAmount']?></td>
+                <td><?php echo $amount['taxAmount']?></td>
                 <?php 
-                foreach($amount['taxAmount'] as $instalment=>$value){
+                foreach($amount['instalments']['taxAmount'] as $instalment=>$value){
                     ?>
                 <td><?php echo $value ?></td>
                 <?php } ?>
             </tr>
             <tr>
                 <td>Total Cost</td>
-                <td><?php echo $amounts['sumAmount']?></td>
+                <td><?php echo $amount['sumAmount']?></td>
                 <?php 
                 for($count=1;$count <= $instalments;$count++){
                     ?>
-                <td><?php echo $amount['baseAmount'][$count. " installment"]+$amount['taxAmount'][$count. " installment"]+$amount['commissionAmount'][$count. " installment"]?></td>
+                <td><?php echo $amount['instalments']['baseAmount'][$count. " installment"]+$amount['instalments']['taxAmount'][$count. " installment"]+$amount['instalments']['commissionAmount'][$count. " installment"]?></td>
                 <?php } ?>
             </tr>
         </table>

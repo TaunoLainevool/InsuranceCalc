@@ -43,33 +43,36 @@ class Calc{
         $sumAmount = $taxAmount + $commissionAmount + $baseAmount;
         $amounts['sumAmount']=$sumAmount;
         
-
+        
         return $amounts;
     }
     
     public function instalmentsCalc(){
         $percentage = $this->getBasePercentage();
         $value = $this->value;
-        $instalments = $this->instalments;
+        $instalments=[];
+        $instalment_num = $this->instalments;
         $instalmentsAmounts = [];
         $amounts= $this->calculation();
-        if($instalments>1){
+       
+        if($instalment_num>1){
+            
             foreach($amounts as $index => $key){
-                $instalmentAmount = round($key/$instalments,2);
-                if($key != $instalmentAmount*$instalments){
-                    $missing = round($key - ($instalmentAmount*$instalments),2, PHP_ROUND_HALF_EVEN);
+                $instalmentAmount = round($key/$instalment_num,2);
+                if($key != $instalmentAmount*$instalment_num){
+                    $missing = round($key - ($instalmentAmount*$instalment_num),2, PHP_ROUND_HALF_EVEN);
                 }
-                    for($count=1;$count <= $instalments;$count++){
-                        if($count!=$instalments){
+                    for($count=1;$count <= $instalment_num;$count++){
+                        if($count!=$instalment_num){
                             $instalmentsAmounts[$count. " installment"]=$instalmentAmount;
                         }else{
                             $instalmentsAmounts[$count. " installment"]=$instalmentAmount+$missing;
                         }
                     }
-                    $amounts[$index]=$instalmentsAmounts;
+                    $instalments[$index]=$instalmentsAmounts;
                     $instalmentsAmounts=[];
             }
-            
+            $amounts['instalments']=$instalments;
             $amounts['percentage']=$percentage;
             $amounts['value']=$value;
             return $amounts;
